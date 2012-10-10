@@ -1,0 +1,20 @@
+services:
+    qimnet.http.update_tracker.repository:
+        class: 'Qimnet\HTTPBundle\UpdateTracker\Repository'
+        private: true
+        arguments: 
+          - '%qimnet.http.update_tracker.entity_name%'
+          
+    qimnet.http.update_tracker.listener:
+        class: 'Qimnet\HTTPBundle\UpdateTracker\Listener'
+        arguments:
+            - '@annotation_reader'
+            - '@qimnet.http.update_tracker.repository'
+        tags:
+            - { name: doctrine.event_subscriber }
+            
+    qimnet.http.update_tracker.manager:
+        class: 'Qimnet\HTTPBundle\UpdateTracker\Manager'
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@qimnet.http.update_tracker.repository'
