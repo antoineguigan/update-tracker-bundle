@@ -23,12 +23,28 @@ class Listener implements EventSubscriber
     public function onFlush(OnFlushEventArgs $args)
     {
         $classes = array();
+        $updates = array();
+        $addUpdate = function($name) use (&$updates)
+        {
+            if (is_array($name))
+             {
+                 $updates = array_unique(array_merge($name, $updates));
+             }
+             elseif(!in_array($name, $updates))
+             {
+                 $updates[] = $name;
+             }
+        };
         $em = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
-        $add_classes = function($entities) use (&$classes)
+        $add_classes = function($entities) use (&$classes, $addUpdate)
         {
             foreach($entities as $entity)
             {
+                if ($entity instanceof TrackUpdateInterface)
+                {
+                    $addUpdate($entity->getUpdateTrackerName());
+                }
                 $class = get_class($entity);
                 if (!in_array($class, $classes))
                 {
@@ -39,20 +55,12 @@ class Listener implements EventSubscriber
         $add_classes($uow->getScheduledEntityDeletions());
         $add_classes($uow->getScheduledEntityInsertions());
         $add_classes($uow->getScheduledEntityUpdates());
-        $updates = array();
         foreach($classes as $class)
         {
             $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($class), 'Qimnet\HTTPBundle\Annotation\TrackUpdate');
             if ($annotation)
             {
-                if (is_array($annotation->name))
-                {
-                    $updates = array_unique(array_merge($annotation->name, $updates));
-                }
-                elseif(!in_array($annotation->name, $updates))
-                {
-                    $updates[] = $annotation->name;
-                }
+                $addUpdate($annotation->name);
             }
         }
         if (count($updates))

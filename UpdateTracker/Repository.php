@@ -42,7 +42,7 @@ class Repository
                 'WHERE u.name=:name')
                 ->setParameter('name', $name)
                 ->getOneOrNullResult(Query::HYDRATE_ARRAY);
-        return count($result) ? $result['date'] : new \DateTime;
+        return $result ? $result['date'] : null;
     }
 }
 
