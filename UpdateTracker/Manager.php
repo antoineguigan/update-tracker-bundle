@@ -15,10 +15,13 @@ class Manager
     }
     public function markUpdated($name)
     {
-        $update = $this->repository->markUpdated($this->em, $name);
-        $this->em->persist($update);
-        $this->em->flush();
-        return $update;
+        $updates = $this->repository->markUpdated($this->em, $name);
+        foreach($updates as $update)
+        {
+            $this->em->persist($update);
+            $this->em->flush();
+        }
+        return $updates;
     }
     public function getLastUpdate($name)
     {

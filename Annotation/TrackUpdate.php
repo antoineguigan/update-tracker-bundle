@@ -5,7 +5,7 @@ namespace Qimnet\HTTPBundle\Annotation;
  */
 class TrackUpdate
 {
-    public $name;
+    public $name='global';
 }
 
 ?>

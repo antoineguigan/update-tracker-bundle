@@ -14,7 +14,7 @@ class Repository
     }
     public function getEntityName()
     {
-        return $this->entityName();
+        return $this->entityName;
     }
 
     public function getEntityRepository(EntityManager $em)
@@ -24,25 +24,41 @@ class Repository
 
     public function markUpdated(EntityManager $em, $name)
     {
-        $repository = $this->getEntityRepository($em);
-        $update = $repository->findOneByName($name);
-        if (!$update)
+        $name = (array) $name;
+        $entityName = $this->getEntityName();
+        $className = $this->getEntityRepository($em)->getClassName();
+        $updates = $em->createQuery("SELECT t FROM $entityName t WHERE t.name IN (:names)")
+                ->setParameter('names', $name)
+                ->getResult();
+        $existing = array_map(function($update) { return $update->getName(); }, $updates);
+        $remaining = array_diff($name, $existing);
+        foreach($remaining as $name)
         {
-            $class = $repository->getClassName();
-            $update = new $class;
+            $update = new $className;
             $update->setName($name);
+            $updates[] = $update;
         }
-        $update->setDate(new \DateTime);
-        return $update;
+        foreach ($updates as $update)
+        {
+            $update->setDate(new \DateTime);
+        }
+        
+        return $updates;
     }
-    public function getLastUpdate(EntityManager $em, $name)
+    public function getLastUpdate(EntityManager $em, $name='global', $getGlobal=true)
     {
+        $name = (array) $name;
+        if (!in_array('global', $name) && $getGlobal)
+        {
+            $name[] = 'global';
+        }
+        $name[] = 'global';
         $result = $em->createQuery(
-                "SELECT u.date FROM $this->entityName u " .
-                'WHERE u.name=:name')
+                "SELECT MAX(u.date) AS date FROM $this->entityName u " .
+                'WHERE u.name IN (:name)')
                 ->setParameter('name', $name)
-                ->getOneOrNullResult(Query::HYDRATE_ARRAY);
-        return $result ? $result['date'] : null;
+                ->getOneOrNullResult();
+        return $result ? new \DateTime($result['date']) : null;
     }
 }
 

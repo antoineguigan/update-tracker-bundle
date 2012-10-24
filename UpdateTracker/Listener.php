@@ -67,9 +67,9 @@ class Listener implements EventSubscriber
         {
             $repository = $this->repository->getEntityRepository($em);
             $meta = $em->getClassMetadata($repository->getClassName());
-            foreach ($updates as $name)
+            $repositoryUpdates = $this->repository->markUpdated($em, $updates);
+            foreach ($repositoryUpdates as $update)
             {
-                $update = $this->repository->markUpdated($em, $name);
                 $em->persist($update);
                 $uow->computeChangeSet($meta, $update);
             }
