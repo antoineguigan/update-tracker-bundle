@@ -23,7 +23,8 @@ class QimnetHTTPExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('qimnet.http.update_tracker.entity_name', $config['update_tracker']['entity_name']);
-        
+        $container->setParameter('qimnet.http.default_max_age', $config['default_max_age']);
+        $container->setParameter('qimnet.http.default_shared_max_age', $config['default_shared_max_age']);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

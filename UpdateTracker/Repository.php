@@ -7,7 +7,9 @@ use Doctrine\ORM\Query;
 class Repository
 {
     protected $entityName;
-    
+    protected $cache=array();
+
+
     public function __construct($entityName)
     {
         $this->entityName = $entityName;
@@ -41,24 +43,40 @@ class Repository
         foreach ($updates as $update)
         {
             $update->setDate(new \DateTime);
+            $this->cache[$update->getName()] = $update->getDate();
         }
         
         return $updates;
     }
-    public function getLastUpdate(EntityManager $em, $name='global', $getGlobal=true)
+    public function getLastUpdate(EntityManager $em, $domains='global', $getGlobal=true)
     {
-        $name = (array) $name;
-        if (!in_array('global', $name) && $getGlobal)
+        $domains = (array) $domains;
+        if (!in_array('global', $domains) && $getGlobal)
         {
-            $name[] = 'global';
+            $domains[] = 'global';
         }
-        $name[] = 'global';
-        $result = $em->createQuery(
-                "SELECT MAX(u.date) AS date FROM $this->entityName u " .
-                'WHERE u.name IN (:name)')
-                ->setParameter('name', $name)
-                ->getOneOrNullResult();
-        return $result ? new \DateTime($result['date']) : null;
+        $new = array_diff($domains, array_keys($this->cache));
+        if (count($new))
+        {
+            $items = $em->createQuery(
+                    "SELECT u FROM $this->entityName u " .
+                    'WHERE u.name IN (:name)')
+                    ->setParameter('name', $new)
+                    ->getResult();
+            foreach($items as $item)
+            {
+                $this->cache[$item->getName()] = $item->getDate();
+            }
+        }
+        $cache = $this->cache;
+        return array_reduce($domains, function(&$result, $domain) use ($cache) {
+            return isset($cache[$domain])
+                ? (is_null($result)
+                    ? $cache[$domain]
+                    : max($cache[$domain],$result))
+                : $result;
+                    
+        },null);
     }
 }
 

@@ -23,7 +23,7 @@ class Manager
         }
         return $updates;
     }
-    public function getLastUpdate($name)
+    public function getLastUpdate($name='global')
     {
         return $this->repository->getLastUpdate($this->em, $name);
     }

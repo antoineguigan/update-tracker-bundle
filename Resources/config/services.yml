@@ -18,3 +18,10 @@ services:
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@qimnet.http.update_tracker.repository'
+            
+    qimnet.http.update_tracker.cached_response_factory:
+        class: 'Qimnet\HTTPBundle\Response\CachedResponseFactory'
+        arguments:
+            - '@qimnet.http.update_tracker.manager'
+            - '%qimnet.http.default_max_age%'
+            - '%qimnet.http.default_shared_max_age%'

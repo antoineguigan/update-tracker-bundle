@@ -23,6 +23,12 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
+                ->scalarNode('default_max_age')
+                    ->defaultValue(60)
+                ->end()
+                ->scalarNode('default_shared_max_age')
+                    ->defaultValue(60)
+                ->end()
                 ->arrayNode('update_tracker')
                     ->addDefaultsIfNotSet()
                     ->children()
