@@ -21,6 +21,9 @@ class Repository
 
     public function getEntityRepository(EntityManager $em)
     {
+        if (!$this->entityName) {
+            throw new \RuntimeException('Could not load Update tracker entity repository');
+        }
         return $em->getRepository($this->entityName);
     }
 
