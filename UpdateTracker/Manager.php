@@ -1,5 +1,5 @@
 <?php
-namespace Qimnet\HTTPBundle\UpdateTracker;
+namespace Qimnet\UpdateTrackerBundle\UpdateTracker;
 use Doctrine\ORM\EntityManager;
 
 class Manager

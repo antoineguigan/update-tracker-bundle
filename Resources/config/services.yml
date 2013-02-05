@@ -1,27 +1,27 @@
 services:
-    qimnet.http.update_tracker.repository:
-        class: 'Qimnet\HTTPBundle\UpdateTracker\Repository'
+    qimnet.update_tracker.repository:
+        class: 'Qimnet\UpdateTrackerBundle\UpdateTracker\Repository'
         private: true
         arguments: 
-          - '%qimnet.http.update_tracker.entity_name%'
+          - '%qimnet.update_tracker.entity_name%'
           
-    qimnet.http.update_tracker.listener:
-        class: 'Qimnet\HTTPBundle\UpdateTracker\Listener'
+    qimnet.update_tracker.listener:
+        class: 'Qimnet\UpdateTrackerBundle\UpdateTracker\Listener'
         arguments:
             - '@annotation_reader'
-            - '@qimnet.http.update_tracker.repository'
+            - '@qimnet.update_tracker.repository'
         tags:
             - { name: doctrine.event_subscriber }
             
-    qimnet.http.update_tracker.manager:
-        class: 'Qimnet\HTTPBundle\UpdateTracker\Manager'
+    qimnet.update_tracker.manager:
+        class: 'Qimnet\UpdateTrackerBundle\UpdateTracker\Manager'
         arguments:
             - '@doctrine.orm.default_entity_manager'
-            - '@qimnet.http.update_tracker.repository'
+            - '@qimnet.update_tracker.repository'
             
-    qimnet.http.update_tracker.cached_response_factory:
-        class: 'Qimnet\HTTPBundle\Response\CachedResponseFactory'
+    qimnet.update_tracker.cached_response_factory:
+        class: 'Qimnet\UpdateTrackerBundle\Response\CachedResponseFactory'
         arguments:
-            - '@qimnet.http.update_tracker.manager'
-            - '%qimnet.http.default_max_age%'
-            - '%qimnet.http.default_shared_max_age%'
+            - '@qimnet.update_tracker.manager'
+            - '%qimnet.update_tracker.default_max_age%'
+            - '%qimnet.update_tracker.default_shared_max_age%'

@@ -1,5 +1,5 @@
 <?php
-namespace Qimnet\HTTPBundle\Annotation;
+namespace Qimnet\UpdateTrackerBundle\Annotation;
 /**
  * @Annotation
  */

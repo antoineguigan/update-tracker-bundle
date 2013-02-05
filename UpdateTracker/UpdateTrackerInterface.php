@@ -1,6 +1,6 @@
 <?php
 
-namespace Qimnet\HTTPBundle\UpdateTracker;
+namespace Qimnet\UpdateTrackerBundle\UpdateTracker;
 
 interface UpdateTrackerInterface
 {

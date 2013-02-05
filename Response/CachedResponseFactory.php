@@ -1,7 +1,7 @@
 <?php
-namespace Qimnet\HTTPBundle\Response;
+namespace Qimnet\UpdateTrackerBundle\Response;
 
-use Qimnet\HTTPBundle\UpdateTracker\Manager;
+use Qimnet\UpdateTrackerBundle\UpdateTracker\Manager;
 use Symfony\Component\HttpFoundation\Response;
 
 class CachedResponseFactory

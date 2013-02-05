@@ -1,8 +1,7 @@
 <?php
-namespace Qimnet\HTTPBundle\UpdateTracker;
+namespace Qimnet\UpdateTrackerBundle\UpdateTracker;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query;
 
 class Repository
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Qimnet\HTTPBundle\DependencyInjection;
+namespace Qimnet\UpdateTrackerBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('qimnet_http');
+        $rootNode = $treeBuilder->root('qimnet_update_tracker');
 
         $rootNode
             ->addDefaultsIfNotSet()
@@ -29,11 +29,8 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('default_shared_max_age')
                     ->defaultValue(60)
                 ->end()
-                ->arrayNode('update_tracker')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('entity_name')->defaultNull()->end()
-                    ->end()
+                ->scalarNode('entity_name')
+                    ->defaultNull()
                 ->end()
             ->end()
             ->end();

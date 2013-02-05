@@ -1,8 +1,8 @@
 <?php
-namespace Qimnet\HTTPBundle\Entity;
+namespace Qimnet\UpdateTrackerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Qimnet\HTTPBundle\UpdateTracker\UpdateTrackerInterface;
+use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerInterface;
 
 /**
  * @ORM\MappedSuperclass

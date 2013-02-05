@@ -1,5 +1,5 @@
 {
-    "name": "qimnet/http-bundle",
+    "name": "qimnet/update-tracker-bundle",
     "type": "symfony-bundle",
     "description": "QIMNET HTTP bundle (alpha)",
     "keywords": ["http"],
@@ -19,9 +19,9 @@
     "require-dev": {
     },
     "autoload": {
-        "psr-0": { "Qimnet\\HTTPBundle": "" }
+        "psr-0": { "Qimnet\\UpdateTrackerBundle": "" }
     },
-    "target-dir": "Qimnet/HTTPBundle",
+    "target-dir": "Qimnet/UpdateTrackerBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"

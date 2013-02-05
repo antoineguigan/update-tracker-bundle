@@ -1,6 +1,6 @@
 <?php
 
-namespace Qimnet\HTTPBundle\UpdateTracker;
+namespace Qimnet\UpdateTrackerBundle\UpdateTracker;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
@@ -57,7 +57,7 @@ class Listener implements EventSubscriber
         $add_classes($uow->getScheduledEntityUpdates());
         foreach($classes as $class)
         {
-            $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($class), 'Qimnet\HTTPBundle\Annotation\TrackUpdate');
+            $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($class), 'Qimnet\UpdateTrackerBundle\Annotation\TrackUpdate');
             if ($annotation)
             {
                 $addUpdate($annotation->name);
@@ -75,6 +75,7 @@ class Listener implements EventSubscriber
             }
         }
     }
+
 }
 
 ?>

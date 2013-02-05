@@ -1,6 +1,6 @@
 <?php
 
-namespace Qimnet\HTTPBundle\DependencyInjection;
+namespace Qimnet\UpdateTrackerBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class QimnetHTTPExtension extends Extension
+class QimnetUpdateTrackerExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -22,9 +22,9 @@ class QimnetHTTPExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('qimnet.http.update_tracker.entity_name', $config['update_tracker']['entity_name']);
-        $container->setParameter('qimnet.http.default_max_age', $config['default_max_age']);
-        $container->setParameter('qimnet.http.default_shared_max_age', $config['default_shared_max_age']);
+        $container->setParameter('qimnet.update_tracker.entity_name', $config['update_tracker']['entity_name']);
+        $container->setParameter('qimnet.update_tracker.default_max_age', $config['default_max_age']);
+        $container->setParameter('qimnet.update_tracker.default_shared_max_age', $config['default_shared_max_age']);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
