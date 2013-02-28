@@ -3,11 +3,11 @@ namespace Qimnet\UpdateTrackerBundle\UpdateTracker;
 
 use Doctrine\ORM\EntityManager;
 
-class Repository
+class UpdateTrackerRepository
 {
     protected $entityName;
     protected $cache=array();
-
+    protected $listeners=array();
 
     public function __construct($entityName)
     {
@@ -16,6 +16,11 @@ class Repository
     public function getEntityName()
     {
         return $this->entityName;
+    }
+
+    public function addEventListener(UpdateListenerInterface $listener)
+    {
+        $this->listeners[]=$listener;
     }
 
     public function getEntityRepository(EntityManager $em)
@@ -46,6 +51,9 @@ class Repository
         {
             $update->setDate(new \DateTime);
             $this->cache[$update->getName()] = $update->getDate();
+            foreach($this->listeners as $listener) {
+                $listener->onUpdate($update);
+            }
         }
         
         return $updates;

@@ -5,13 +5,13 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
 
-class Listener implements EventSubscriber
+class DoctrineEventSubscriber implements EventSubscriber
 {
     protected $annotationReader;
     protected $repository;
 
 
-    public function __construct(AnnotationReader $annotationReader, Repository $repository)
+    public function __construct(AnnotationReader $annotationReader, UpdateTrackerRepository $repository)
     {
         $this->annotationReader = $annotationReader;
         $this->repository = $repository;

@@ -1,0 +1,38 @@
+services:
+    qimnet.update_tracker.cache_manager:
+        class: 'Qimnet\UpdateTrackerBundle\CacheManager\CacheManager'
+        arguments:
+            - '@qimnet.update_tracker.manager'
+            - '@qimnet.update_tracker.cache_repositories'
+
+    
+    qimnet.update_tracker.cache_repositories:
+        class: 'Qimnet\UpdateTrackerBundle\CacheManager\CacheRepositories'
+        public: false
+        arguments:
+            - '%qimnet.update_tracker.cache_manager.default_repository%'
+    
+    qimnet.update_tracker.cache_repository:
+        abstract: true
+        public: false
+        arguments:
+            - '%qimnet.update_tracker.cache_manager.prefix%'
+            - '%qimnet.update_tracker.cache_manager.ttl%'
+            - '%qimnet.update_tracker.cache_manager.debug%'
+        
+        
+    qimnet.update_tracker.cache_repository.apc:
+        class: 'Qimnet\UpdateTrackerBundle\CacheManager\APCCacheRepository'
+        parent: qimnet.update_tracker.cache_repository
+        public: false
+        tags:
+            - { name: qimnet.update_tracker.cache_repository, alias: apc }
+            
+    
+    qimnet.cache_manager.cache_manager.listener:
+        class: 'Qimnet\UpdateTrackerBundle\CacheManager\UpdateListener'
+        public: false
+        arguments:
+            - '@qimnet.update_tracker.cache_repositories'
+        tags:
+            - { name: qimnet.update_tracker.listener }
