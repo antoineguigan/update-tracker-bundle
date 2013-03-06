@@ -7,7 +7,7 @@ abstract class AbstractCacheRepository implements CacheRepositoryInterface
     protected $debug;
     protected $prefix;
     
-    public function __construct($prefix, $defaultTTL, $debug)
+    public function __construct($prefix, $defaultTTL=90, $debug=false)
     {
         $this->defaultTTL = $defaultTTL;
         $this->debug = $debug;

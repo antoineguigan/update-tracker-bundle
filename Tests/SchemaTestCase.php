@@ -15,6 +15,11 @@ abstract class SchemaTestCase extends \PHPUnit_Framework_TestCase
      * @var Doctrine\ORM\EntityManager
      */
     protected static $entityManager;
+    
+    /**
+     * @var Doctrine\Bundle\DoctrineBundle\Registry
+     */
+    protected static $doctrine;
 
     /**
      * @var Symfony\Component\DependencyInjection\Container
@@ -30,7 +35,8 @@ abstract class SchemaTestCase extends \PHPUnit_Framework_TestCase
 
         // Store the container and the entity manager in test case properties
         self::$container = self::$kernel->getContainer();
-        self::$entityManager = self::$container->get('doctrine')->getEntityManager();
+        self::$doctrine = self::$container->get('doctrine');
+        self::$entityManager = self::$doctrine->getEntityManager();
 
         // Build the schema for sqlite
         self::generateSchema();

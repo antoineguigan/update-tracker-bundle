@@ -2,7 +2,6 @@
 namespace Qimnet\UpdateTrackerBundle\Tests\UpdateTracker;
 use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerRepository;
 use Qimnet\UpdateTrackerBundle\Tests\SchemaTestCase;
-use Qimnet\UpdateTrackerBundle\UpdateTracker\DoctrineEventSubscriber;
 
 class UpdateTrackerRepositoryTest  extends SchemaTestCase
 {
@@ -38,15 +37,6 @@ class UpdateTrackerRepositoryTest  extends SchemaTestCase
         $this->assertEquals(self::CLASS_NAME, $entityRepository->getClassName());
         return $entityRepository;
     }
-    /**
-     * @depends testConstructByEntityName
-     */
-    public function testAddEventListener(UpdateTrackerRepository $repository)
-    {
-        $listener = $this->getMock('Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateListenerInterface');
-        $repository->addEventListener($listener);
-        return $repository;
-    }
     public function getNamespaces()
     {
         return array(
@@ -79,12 +69,26 @@ class UpdateTrackerRepositoryTest  extends SchemaTestCase
     public function testGetLastUpdate()
     {
         $repository = new UpdateTrackerRepository(self::ENTITY_NAME);
+        $globalDate = self::$updates['global']->getDate();
         foreach(self::$updates as $namespace=>$update)
         {
-            $this->assertEquals($update->getDate(),$repository->getLastUpdate(self::$entityManager, $namespace));
+            $this->assertSame($globalDate,$repository->getLastUpdate(self::$entityManager, $namespace));
         }
-        $this->assertEquals(self::$updates['global']->getDate(),$repository->getLastUpdate(self::$entityManager, 'bogus'));
+        $this->assertEquals($globalDate,$repository->getLastUpdate(self::$entityManager, 'bogus'));
         $this->assertNull($repository->getLastUpdate(self::$entityManager, 'bogus',false));
+    }
+    /**
+     * @depends testGetLastUpdate
+     */
+    public function testAddEventListener()
+    {
+        $repository = new UpdateTrackerRepository(self::ENTITY_NAME);
+        $listener = $this->getMock('Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateListenerInterface');
+        $listener->expects($this->once())
+                ->method('onUpdate');
+        $repository->addEventListener($listener);
+        $repository->markUpdated(self::$entityManager, 'updated');
+        return $repository;
     }
 }
 

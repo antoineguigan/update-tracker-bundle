@@ -10,7 +10,7 @@ class HTTPCachedResponseFactory
     protected $maxAge;
     protected $sharedMaxAge;
     
-    public function __construct(UpdateManager $manager, $maxAge, $sharedMaxAge)
+    public function __construct(UpdateManager $manager, $maxAge=60, $sharedMaxAge=60)
     {
         $this->manager = $manager;
         $this->maxAge = $maxAge;
