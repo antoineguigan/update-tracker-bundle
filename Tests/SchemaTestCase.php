@@ -36,7 +36,7 @@ abstract class SchemaTestCase extends \PHPUnit_Framework_TestCase
         // Store the container and the entity manager in test case properties
         self::$container = self::$kernel->getContainer();
         self::$doctrine = self::$container->get('doctrine');
-        self::$entityManager = self::$doctrine->getEntityManager();
+        self::$entityManager = self::$doctrine->getManager();
 
         // Build the schema for sqlite
         self::generateSchema();

@@ -15,17 +15,17 @@ class UpdateManager
     }
     public function markUpdated($name)
     {
-        $updates = $this->repository->markUpdated($this->doctrine->getEntityManager(), $name);
+        $updates = $this->repository->markUpdated($this->doctrine->getManager(), $name);
         foreach($updates as $update)
         {
-            $this->doctrine->getEntityManager()->persist($update);
-            $this->doctrine->getEntityManager()->flush();
+            $this->doctrine->getManager()->persist($update);
+            $this->doctrine->getManager()->flush();
         }
         return $updates;
     }
     public function getLastUpdate($name='global')
     {
-        return $this->repository->getLastUpdate($this->doctrine->getEntityManager(), $name);
+        return $this->repository->getLastUpdate($this->doctrine->getManager(), $name);
     }
     public function getEntityName()
     {
@@ -33,7 +33,7 @@ class UpdateManager
     }
     public function getEntityRepository()
     {
-        return $this->repository->getEntityRepository($this->doctrine->getEntityManager());
+        return $this->repository->getEntityRepository($this->doctrine->getManager());
     }
 }
 
