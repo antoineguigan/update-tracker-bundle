@@ -1,7 +1,7 @@
 {
     "name": "qimnet/update-tracker-bundle",
     "type": "symfony-bundle",
-    "description": "QIMNET HTTP bundle (alpha)",
+    "description": "QIMNET Update Tracker bundle",
     "keywords": ["http"],
     "homepage": "http://qimnet.com",
     "license": "MIT",
