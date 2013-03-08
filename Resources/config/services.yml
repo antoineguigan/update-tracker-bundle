@@ -1,12 +1,18 @@
+parameters:
+    qimnet.update_tracker.repository.class: 'Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerRepository'
+    qimnet.update_tracker.doctrine_event_subscriber.class: 'Qimnet\UpdateTrackerBundle\UpdateTracker\DoctrineEventSubscriber'
+    qimnet.update_tracker.manager.class: 'Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManager'
+    qimnet.update_tracker.http_cached_response_factory.class: 'Qimnet\UpdateTrackerBundle\Response\HTTPCachedResponseFactory'
+  
 services:
     qimnet.update_tracker.repository:
-        class: 'Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerRepository'
+        class: '%qimnet.update_tracker.repository.class%'
         public: false
         arguments: 
           - '%qimnet.update_tracker.entity_name%'
           
     qimnet.update_tracker.doctrine_event_subscriber:
-        class: 'Qimnet\UpdateTrackerBundle\UpdateTracker\DoctrineEventSubscriber'
+        class: '%qimnet.update_tracker.doctrine_event_subscriber.class%'
         public: false
         arguments:
             - '@annotation_reader'
@@ -15,13 +21,13 @@ services:
             - { name: doctrine.event_subscriber }
             
     qimnet.update_tracker.manager:
-        class: 'Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManager'
+        class: '%qimnet.update_tracker.manager.class%'
         arguments:
             - '@doctrine'
             - '@qimnet.update_tracker.repository'
             
     qimnet.update_tracker.http_cached_response_factory:
-        class: 'Qimnet\UpdateTrackerBundle\Response\HTTPCachedResponseFactory'
+        class: '%qimnet.update_tracker.http_cached_response_factory.class%'
         arguments:
             - '@qimnet.update_tracker.manager'
             - '%qimnet.update_tracker.response.default_max_age%'

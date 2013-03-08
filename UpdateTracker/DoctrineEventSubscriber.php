@@ -5,17 +5,31 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
 
+/**
+ * Listens to Doctrine events, and updates the update tracker repository
+ * 
+ * Entities can be trackeds using the TrackUpdateTest annotation, or TrackUpdateInterface
+ */
 class DoctrineEventSubscriber implements EventSubscriber
 {
     protected $annotationReader;
     protected $repository;
 
-
+    /**
+     * Constructor
+     * 
+     * @param \Doctrine\Common\Annotations\Reader $annotationReader
+     * @param \Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerRepository $repository
+     */
     public function __construct(AnnotationReader $annotationReader, UpdateTrackerRepository $repository)
     {
         $this->annotationReader = $annotationReader;
         $this->repository = $repository;
     }
+    
+    /**
+     * @inheritdoc
+     */
     public function getSubscribedEvents()
     {
         return array('onFlush');

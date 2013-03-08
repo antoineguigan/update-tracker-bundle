@@ -9,9 +9,7 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
- * This is the class that loads and manages your bundle configuration
- *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
+ * Bundle Configuration
  */
 class QimnetUpdateTrackerExtension extends Extension
 {
@@ -29,6 +27,7 @@ class QimnetUpdateTrackerExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         
+        //Do not load cache manager services if the cache manager is disabled
         if ($config['cache_manager']['enabled']) {
             if (!$config['cache_manager']['prefix']) {
                 throw new InvalidConfigurationException('Prefix has to be set if cache manager is enabled');

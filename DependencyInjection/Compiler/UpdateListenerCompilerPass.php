@@ -7,6 +7,12 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class UpdateListenerCompilerPass implements CompilerPassInterface
 {
+    /**
+     * Adds listeners to the "qimnet.update_tracker.repository service".
+     * 
+     * Listener services should be tagged with "qimnet.update_tracker.listener"
+     * @inheritdoc
+     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('qimnet.update_tracker.repository')) return;

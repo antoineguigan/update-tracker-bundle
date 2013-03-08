@@ -5,6 +5,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerInterface;
 
 /**
+ * Base UpdateTracker entity class
+ * 
+ * This class should be subclassed as an entity in your project
+ * 
  * @ORM\MappedSuperclass
  */
 abstract class UpdateTracker implements UpdateTrackerInterface
@@ -21,25 +25,36 @@ abstract class UpdateTracker implements UpdateTrackerInterface
      */
     protected $date;
 
+
+    /**
+     * @inheritdoc
+     */
     public function getDate()
     {
         return $this->date;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setDate(\DateTime $date)
     {
         $this->date = $date;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setName($name)
     {
         $this->name = $name;
     }
 }
-
-?>

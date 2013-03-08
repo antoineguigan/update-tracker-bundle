@@ -1,6 +1,9 @@
 <?php
 namespace Qimnet\UpdateTrackerBundle\CacheManager;
 
+/**
+ * Base implementation for cache repositories
+ */
 abstract class AbstractCacheRepository implements CacheRepositoryInterface
 {
     protected $defaultTTL;
