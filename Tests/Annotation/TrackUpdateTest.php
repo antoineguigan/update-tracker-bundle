@@ -1,19 +1,30 @@
 <?php
 namespace Qimnet\UpdateTrackerBundle\Tests\Annotation;
 
-use Qimnet\UpdateTrackerBundle\Tests\SchemaTestCase;
 use Qimnet\UpdateTrackerTestBundle\Entity\TrackedEntityTest;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TrackUpdateTest extends SchemaTestCase
+class TrackUpdateTest extends WebTestCase
 {
+    protected $container;
+    protected $entityManager;
+    protected function setUp()
+    {
+        parent::setUp();
+        self::$kernel = static::createKernel();
+        self::$kernel->boot();
+        $this->container = self::$kernel->getContainer();
+        $this->entityManager = $this->container->get('doctrine')->getManager();
+    }
+
     public function testCreateEntity()
     {
         $e = new TrackedEntityTest;
         $e->setContent('test');
         $now = new \DateTime;
-        self::$entityManager->persist($e);
-        self::$entityManager->flush();
-        $update = self::$container->get('qimnet.update_tracker.manager')->getLastUpdate('test');
+        $this->entityManager->persist($e);
+        $this->entityManager->flush();
+        $update = $this->container->get('qimnet.update_tracker.manager')->getLastUpdate('test');
         $this->assertInstanceOf('\DateTime',$update);
         $this->assertTrue($update >= $now);
         return $e;
@@ -23,14 +34,15 @@ class TrackUpdateTest extends SchemaTestCase
      */
     public function testUpdateEntity(TrackedEntityTest $entity)
     {
-        $tracker = self::$container->get('qimnet.update_tracker.manager');
+        $this->entityManager->merge($entity);
+        $tracker = $this->container->get('qimnet.update_tracker.manager');
         $lastDate = $tracker->getLastUpdate('test');
         
         $entity->setContent('test2');
-        self::$entityManager->persist($entity);
-        self::$entityManager->flush();
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
         
-        $update = self::$container->get('qimnet.update_tracker.manager')->getLastUpdate('test');
+        $update = $this->container->get('qimnet.update_tracker.manager')->getLastUpdate('test');
         $this->assertInstanceOf('\DateTime',$update);
         $this->assertTrue($update >= $lastDate);
         
@@ -41,13 +53,14 @@ class TrackUpdateTest extends SchemaTestCase
      */
     public function testDeleteEntity(TrackedEntityTest $entity)
     {
-        $tracker = self::$container->get('qimnet.update_tracker.manager');
+        $this->entityManager->persist($entity);
+        $tracker = $this->container->get('qimnet.update_tracker.manager');
         $lastDate = $tracker->getLastUpdate('test');
         
-        self::$entityManager->remove($entity);
-        self::$entityManager->flush();
+        $this->entityManager->remove($entity);
+        $this->entityManager->flush();
         
-        $update = self::$container->get('qimnet.update_tracker.manager')->getLastUpdate('test');
+        $update = $this->container->get('qimnet.update_tracker.manager')->getLastUpdate('test');
         $this->assertInstanceOf('\DateTime',$update);
         $this->assertTrue($update >= $lastDate);
         

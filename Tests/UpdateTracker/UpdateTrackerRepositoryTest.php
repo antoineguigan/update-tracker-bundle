@@ -1,15 +1,23 @@
 <?php
 namespace Qimnet\UpdateTrackerBundle\Tests\UpdateTracker;
 use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerRepository;
-use Qimnet\UpdateTrackerBundle\Tests\SchemaTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UpdateTrackerRepositoryTest  extends SchemaTestCase
+class UpdateTrackerRepositoryTest  extends WebTestCase
 {
     const CLASS_NAME='Qimnet\UpdateTrackerTestBundle\Entity\UpdateTrackerTest';
     const ENTITY_NAME='QimnetUpdateTrackerTestBundle:UpdateTrackerTest';
     
     static $updates=array();
+    protected $entityManager;
 
+    protected function setUp()
+    {
+        parent::setUp();
+        self::$kernel = static::createKernel();
+        self::$kernel->boot();
+        $this->entityManager = self::$kernel->getContainer()->get('doctrine')->getManager();
+    }
 
     public function testConstructByEntityName()
     {
@@ -32,7 +40,7 @@ class UpdateTrackerRepositoryTest  extends SchemaTestCase
      */
     public function testGetEntityRepository(UpdateTrackerRepository $repository)
     {
-        $entityRepository = $repository->getEntityRepository(self::$entityManager);
+        $entityRepository = $repository->getEntityRepository($this->entityManager);
         $this->assertInstanceOf('Doctrine\ORM\EntityRepository', $entityRepository);
         $this->assertEquals(self::CLASS_NAME, $entityRepository->getClassName());
         return $entityRepository;
@@ -54,13 +62,13 @@ class UpdateTrackerRepositoryTest  extends SchemaTestCase
     public function testMarkUpdated($namespaces)
     {
         $repository = new UpdateTrackerRepository(self::ENTITY_NAME);
-        $updates = $repository->markUpdated(self::$entityManager, $namespaces);
+        $updates = $repository->markUpdated($this->entityManager, $namespaces);
         foreach($updates as $update)
         {
             self::$updates[$update->getName()] = $update;
-            self::$entityManager->persist($update);
+            $this->entityManager->persist($update);
         }
-        self::$entityManager->flush();
+        $this->entityManager->flush();
         return $repository;
     }
     /**
@@ -72,10 +80,10 @@ class UpdateTrackerRepositoryTest  extends SchemaTestCase
         $globalDate = self::$updates['global']->getDate();
         foreach(self::$updates as $namespace=>$update)
         {
-            $this->assertSame($globalDate,$repository->getLastUpdate(self::$entityManager, $namespace));
+            $this->assertEquals($globalDate,$repository->getLastUpdate($this->entityManager, $namespace));
         }
-        $this->assertEquals($globalDate,$repository->getLastUpdate(self::$entityManager, 'bogus'));
-        $this->assertNull($repository->getLastUpdate(self::$entityManager, 'bogus',false));
+        $this->assertEquals($globalDate,$repository->getLastUpdate($this->entityManager, 'bogus'));
+        $this->assertNull($repository->getLastUpdate($this->entityManager, 'bogus',false));
     }
     /**
      * @depends testGetLastUpdate
@@ -87,7 +95,7 @@ class UpdateTrackerRepositoryTest  extends SchemaTestCase
         $listener->expects($this->once())
                 ->method('onUpdate');
         $repository->addEventListener($listener);
-        $repository->markUpdated(self::$entityManager, 'updated');
+        $repository->markUpdated($this->entityManager, 'updated');
         return $repository;
     }
 }
