@@ -130,7 +130,7 @@ class UpdateTrackerRepository
                     : max($cache[$domain],$result))
                 : $result;
                     
-        },null);
+        },$getGlobal ? new \DateTime : null);
     }
 }
 

@@ -2,7 +2,7 @@
     "name": "qimnet/update-tracker-bundle",
     "type": "symfony-bundle",
     "description": "QIMNET Update tracker bundle",
-    "keywords": ["http"],
+    "keywords": ["http" , "cache"],
     "homepage": "http://qimnet.com",
     "license": "MIT",
     "authors": [

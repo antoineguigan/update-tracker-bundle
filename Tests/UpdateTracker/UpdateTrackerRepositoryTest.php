@@ -43,8 +43,22 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
         $entityRepository = $repository->getEntityRepository($this->entityManager);
         $this->assertInstanceOf('Doctrine\ORM\EntityRepository', $entityRepository);
         $this->assertEquals(self::CLASS_NAME, $entityRepository->getClassName());
-        return $entityRepository;
+        return $repository;
     }
+    /**
+     * @depends testGetEntityRepository
+     */
+    public function testDefaultValueIsDate(UpdateTrackerRepository $repository)
+    {
+        $entityRepository = $repository->getEntityRepository($this->entityManager);
+        foreach($entityRepository->findAll() as $entity)
+        {
+            $this->entityManager->remove($entity);
+        }
+        $this->entityManager->flush();
+        $this->assertInstanceOf('\DateTime', $repository->getLastUpdate($this->entityManager));
+    }
+
     public function getNamespaces()
     {
         return array(
@@ -56,7 +70,7 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
             array(array('global')));
     }
     /**
-     * @depends testConstructByEntityName
+     * @depends testDefaultValueIsDate
      * @dataProvider getNamespaces
      */
     public function testMarkUpdated($namespaces)
