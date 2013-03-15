@@ -22,10 +22,6 @@ class CacheFragmentRendererTest extends \PHPUnit_Framework_TestCase
     public function testRender($options, $updateTrackerName)
     {
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-        $request
-                ->expects($this->once())
-                ->method('getUri')
-                ->will($this->returnValue('uri'));
         $inlineRendererOptions = $options;
         if (!isset($inlineRendererOptions['updateTrackerName'])) {
             $inlineRendererOptions['updateTrackerName'] = 'global';
@@ -36,7 +32,7 @@ class CacheFragmentRendererTest extends \PHPUnit_Framework_TestCase
         $inlineRenderer
                 ->expects($this->atLeastOnce())
                 ->method('render')
-                ->with( $this->equalTo('uri'),
+                ->with( $this->anything(),
                         $this->equalTo($request),
                         $this->equalTo($inlineRendererOptions))
                 ->will($this->returnValue('SUCCESS'));
@@ -47,7 +43,7 @@ class CacheFragmentRendererTest extends \PHPUnit_Framework_TestCase
                 ->expects($this->once())
                 ->method('getObject')
                 ->with( $this->equalTo($updateTrackerName), 
-                        $this->equalTo('controller/uri'), 
+                        $this->stringStartsWith('controller/'), 
                         $this->callback(function($closure){
                             $val = $closure();
                             return is_null($val) || ('SUCCESS' == $val);
