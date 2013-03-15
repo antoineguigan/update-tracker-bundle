@@ -113,6 +113,14 @@ class MyController
 }
 ```
 
+You can also render cached fragments directly from yout templates by using the 
+render tag with the ``cache`` strategy :
+
+```twig
+{{ render(controller("MyBundle:MyController:myAction"), { strategy: "cache", "updateTrackerName": "default", ttl: 120 }) }}
+```
+
+
 
 Cache entries are automatically deleted when the corresponding update tracker namespace
 is changed.
