@@ -96,7 +96,7 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
         {
             $this->assertGreaterThanOrEqual($globalDate,$repository->getLastUpdate($this->entityManager, $namespace));
         }
-        $this->assertEquals($globalDate,$repository->getLastUpdate($this->entityManager, 'bogus'));
+        $this->assertGreaterThanOrEqual($globalDate,$repository->getLastUpdate($this->entityManager, 'bogus'));
         $this->assertNull($repository->getLastUpdate($this->entityManager, 'bogus',false));
     }
     /**
