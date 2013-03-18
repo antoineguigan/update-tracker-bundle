@@ -4,7 +4,7 @@ namespace Qimnet\UpdateTrackerBundle\CacheManager;
 /**
  * Collection of defined cache repositories
  */
-class CacheRepositories
+class CacheRepositories implements CacheRepositoriesInterface
 {
     protected $repositories = array();
     protected $defaultRepositoryName;
@@ -20,10 +20,7 @@ class CacheRepositories
     }
     
     /**
-     * Adds a repository to the collection
-     * 
-     * @param string $name 
-     * @param CacheRepositoryInterface $repository 
+     * @inheritdoc
      */
     public function addRepository($name, CacheRepositoryInterface $repository)
     {
@@ -31,10 +28,7 @@ class CacheRepositories
     }
     
     /**
-     * Returns the repository corresponding to the given name
-     * 
-     * @param string $name
-     * @return CacheRepositoryInterface
+     * @inheritdoc
      */
     public function getRepository($name=false)
     {

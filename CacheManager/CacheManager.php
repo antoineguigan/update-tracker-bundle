@@ -1,7 +1,7 @@
 <?php
 namespace Qimnet\UpdateTrackerBundle\CacheManager;
 
-use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManager;
+use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManagerInterface;
 
 /**
  * Used to retrieve objects from cache repositories
@@ -13,10 +13,10 @@ class CacheManager implements CacheManagerInterface
 
     /**
      * Constructor
-     * @param \Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManager $updateManager
-     * @param \Qimnet\UpdateTrackerBundle\CacheManager\CacheRepositories $repositories
+     * @param UpdateManagerInterface $updateManager
+     * @param CacheRepositoriesInterface $repositories
      */
-    public function __construct(UpdateManager $updateManager, CacheRepositories $repositories)
+    public function __construct(UpdateManagerInterface $updateManager, CacheRepositoriesInterface $repositories)
     {
         $this->updateManager = $updateManager;
         $this->repositories = $repositories;

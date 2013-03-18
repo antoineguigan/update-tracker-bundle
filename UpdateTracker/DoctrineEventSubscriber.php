@@ -18,10 +18,10 @@ class DoctrineEventSubscriber implements EventSubscriber
     /**
      * Constructor
      * 
-     * @param \Doctrine\Common\Annotations\Reader $annotationReader
-     * @param \Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerRepository $repository
+     * @param AnnotationReader $annotationReader
+     * @param UpdateTrackerRepositoryInterface $repository
      */
-    public function __construct(AnnotationReader $annotationReader, UpdateTrackerRepository $repository)
+    public function __construct(AnnotationReader $annotationReader, UpdateTrackerRepositoryInterface $repository)
     {
         $this->annotationReader = $annotationReader;
         $this->repository = $repository;

@@ -13,17 +13,6 @@ class CacheFragmentRenderer implements FragmentRendererInterface
     private $cacheManager;
     private $inlineRenderer;
 
-    /**
-     * Sets the fragment path that triggers the fragment listener.
-     *
-     * @param string $path The path
-     *
-     * @see FragmentListener
-     */
-    public function setFragmentPath($path)
-    {
-        $this->fragmentPath = $path;
-    }
     public function __construct(FragmentRendererInterface $inlineRenderer, CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;

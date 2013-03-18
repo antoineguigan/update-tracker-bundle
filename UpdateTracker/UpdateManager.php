@@ -5,7 +5,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 /**
  * Used to access the update tracker records
  */
-class UpdateManager
+class UpdateManager implements UpdateManagerInterface
 {
     protected $doctrine;
     protected $repository;
@@ -13,23 +13,17 @@ class UpdateManager
     /**
      * Constructor
      * 
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
-     * @param \Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerRepository $repository
+     * @param Registry $doctrine
+     * @param UpdateTrackerRepositoryInterface $repository
      */
-    public function __construct(Registry $doctrine, UpdateTrackerRepository $repository)
+    public function __construct(Registry $doctrine, UpdateTrackerRepositoryInterface $repository)
     {
         $this->doctrine = $doctrine;
         $this->repository = $repository;
     }
     
     /**
-     * marks the given update tracker as updated
-     * 
-     * Marking the 'global' namespace as updated marks all the other namespaces 
-     * as updated too.
-     * 
-     * @param string $name
-     * @return array the changed update tracker entities
+     * @inheritdoc
      */
     public function markUpdated($name)
     {
@@ -43,10 +37,7 @@ class UpdateManager
     }
     
     /**
-     * Gets the last update time for the given namespaces 
-     * 
-     * @param mixed $name a namespace, or an array of namespaces
-     * @return \DateTime
+     * @inheritdoc
      */
     public function getLastUpdate($name='global')
     {
@@ -54,8 +45,7 @@ class UpdateManager
     }
     
     /**
-     * Returns the name of the update tracker entity
-     * @return name
+     * @inheritdoc
      */
     public function getEntityName()
     {
@@ -63,9 +53,7 @@ class UpdateManager
     }
     
     /**
-     * Returns the update tracker entity repository
-     * 
-     * @return \Doctrine\ORM\EntityRepository
+     * @inheritdoc
      */
     public function getEntityRepository()
     {

@@ -1,7 +1,7 @@
 <?php
 namespace Qimnet\UpdateTrackerBundle\Response;
 
-use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManager;
+use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -22,11 +22,11 @@ class HTTPCachedResponseFactory
     /**
      * Constructor
      * 
-     * @param \Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManager $manager
+     * @param UpdateManagerInterface $manager
      * @param int $maxAge
      * @param int $sharedMaxAge
      */
-    public function __construct(UpdateManager $manager, $maxAge=60, $sharedMaxAge=60)
+    public function __construct(UpdateManagerInterface $manager, $maxAge=60, $sharedMaxAge=60)
     {
         $this->manager = $manager;
         $this->maxAge = $maxAge;

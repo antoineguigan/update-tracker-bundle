@@ -112,6 +112,14 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
         $repository->markUpdated($this->entityManager, 'updated');
         return $repository;
     }
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testConfigError()
+    {
+        $repository = new UpdateTrackerRepository('');
+        $repository->getEntityRepository($this->entityManager);
+    }
 }
 
 ?>

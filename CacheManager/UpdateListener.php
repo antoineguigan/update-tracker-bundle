@@ -14,9 +14,9 @@ class UpdateListener implements UpdateListenerInterface
     /**
      * Constructor
      * 
-     * @param \Qimnet\UpdateTrackerBundle\CacheManager\CacheRepositories $repositories
+     * @param CacheRepositoriesInterface $repositories
      */
-    public function __construct(CacheRepositories $repositories)
+    public function __construct(CacheRepositoriesInterface $repositories)
     {
         $this->repositories = $repositories;
     }

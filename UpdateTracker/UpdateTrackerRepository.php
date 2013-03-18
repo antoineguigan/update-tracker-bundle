@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * Manages an update tracker Doctrine repository
  */
-class UpdateTrackerRepository
+class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
 {
     protected $entityName;
     protected $cache=array();
@@ -23,9 +23,7 @@ class UpdateTrackerRepository
     }
     
     /**
-     * Returns the name of the entity
-     * 
-     * @return string
+     * @inheritdoc
      */
     public function getEntityName()
     {
@@ -33,9 +31,7 @@ class UpdateTrackerRepository
     }
 
     /**
-     * Add an event listener to the repository
-     * 
-     * @param \Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateListenerInterface $listener
+     * @inheritdoc
      */
     public function addEventListener(UpdateListenerInterface $listener)
     {
@@ -43,11 +39,7 @@ class UpdateTrackerRepository
     }
 
     /**
-     * Returns the doctrine entity repository of the update tracker
-     * 
-     * @param \Doctrine\ORM\EntityManager $em
-     * @return \Doctrine\ORM\EntityRepository
-     * @throws \RuntimeException
+     * @inheritdoc
      */
     public function getEntityRepository(EntityManager $em)
     {
@@ -58,14 +50,7 @@ class UpdateTrackerRepository
     }
 
     /**
-     * marks the given update tracker as updated
-     * 
-     * Marking the 'global' namespace as updated marks all the other namespaces 
-     * as updated too.
-     * 
-     * @param EntityManager $em
-     * @param string $name
-     * @return array the changed update tracker entities
+     * @inheritdoc
      */
     public function markUpdated(EntityManager $em, $name)
     {
