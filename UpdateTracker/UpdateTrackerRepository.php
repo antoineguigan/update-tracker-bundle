@@ -108,14 +108,15 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
             }
         }
         $cache = $this->cache;
-        return array_reduce($domains, function(&$result, $domain) use ($cache) {
+        $ret = array_reduce($domains, function(&$result, $domain) use ($cache) {
             return isset($cache[$domain])
                 ? (is_null($result)
                     ? $cache[$domain]
                     : max($cache[$domain],$result))
                 : $result;
                     
-        },$getGlobal ? new \DateTime : null);
+        },null);
+        return ($getGlobal && ! $ret) ? new \DateTime : $ret;
     }
 }
 
