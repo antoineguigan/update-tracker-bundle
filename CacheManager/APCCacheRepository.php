@@ -21,7 +21,7 @@ class APCCacheRepository extends AbstractCacheRepository
     protected function removeObjectsByPrefix($prefix)
     {
         if (function_exists('apc_delete') && class_exists('\APCIterator')) {
-            apc_delete(new \APCIterator('user', "@^$prefix@", APC_ITER_VALUE));
+            apc_delete(new \APCIterator('user', "@^$prefix@", APC_ITER_KEY));
         }
     }
 
