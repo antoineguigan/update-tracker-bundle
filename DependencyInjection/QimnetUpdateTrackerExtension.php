@@ -24,6 +24,8 @@ class QimnetUpdateTrackerExtension extends Extension
         $container->setParameter('qimnet.update_tracker.entity_name', $config['entity_name']);
         $container->setParameter('qimnet.update_tracker.response.default_max_age', $config['response']['default_max_age']);
         $container->setParameter('qimnet.update_tracker.response.default_shared_max_age', $config['response']['default_shared_max_age']);
+        $container->setParameter('qimnet.update_tracker.path_generator.timestamp_argument_name', $config['routing']['timestamp_argument_name']);
+        
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         

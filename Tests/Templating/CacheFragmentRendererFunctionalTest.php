@@ -1,6 +1,6 @@
 <?php
 
-namespace ABC\WebsiteBundle\Tests\Templating;
+namespace Qimnet\UpdateTrackerBundle\Tests\Templating;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
