@@ -80,21 +80,12 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
         return $updates;
     }
     /**
-     * Gets the last update time for the given namespaces 
-     * 
-     * @param EntityManager $em
-     * @param mixed $domains a namespace, or an array of namespaces
-     * @param boolean $getGlobal true if the global namespace should be used
-     * @return \DateTime
+     * @inheritdoc
      */
-    public function getLastUpdate(EntityManager $em, $domains='global', $getGlobal=true)
+    public function getLastUpdate(EntityManager $em, $name='global', $default=true)
     {
-        $domains = (array) $domains;
-        if (!in_array('global', $domains) && $getGlobal)
-        {
-            $domains[] = 'global';
-        }
-        $new = array_diff($domains, array_keys($this->cache));
+        $name = (array) $name;
+        $new = array_diff($name, array_keys($this->cache));
         if (count($new))
         {
             $items = $em->createQuery(
@@ -108,7 +99,7 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
             }
         }
         $cache = $this->cache;
-        $ret = array_reduce($domains, function(&$result, $domain) use ($cache) {
+        $date = array_reduce($name, function(&$result, $domain) use ($cache) {
             return isset($cache[$domain])
                 ? (is_null($result)
                     ? $cache[$domain]
@@ -116,7 +107,15 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
                 : $result;
                     
         },null);
-        return ($getGlobal && ! $ret) ? new \DateTime : $ret;
+        if (is_null($date) ) {
+            if ($default===true) {
+                return new \DateTime;
+            } else {
+                return $default;
+            }
+        } else {
+            return $date;
+        }
     }
 }
 

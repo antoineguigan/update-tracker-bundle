@@ -47,10 +47,10 @@ interface UpdateTrackerRepositoryInterface
      * 
      * @param EntityManager $em
      * @param mixed $domains a namespace, or an array of namespaces
-     * @param boolean $getGlobal true if the global namespace should be used
+     * @param boolean $default set to true to return the current date as default
      * @return \DateTime
      */
-    public function getLastUpdate(EntityManager $em, $domains='global', $getGlobal=true);
+    public function getLastUpdate(EntityManager $em, $domains='global', $default=true);
 }
 
 ?>

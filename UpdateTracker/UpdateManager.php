@@ -39,9 +39,9 @@ class UpdateManager implements UpdateManagerInterface
     /**
      * @inheritdoc
      */
-    public function getLastUpdate($name='global')
+    public function getLastUpdate($name='global', $default=true)
     {
-        return $this->repository->getLastUpdate($this->doctrine->getManager(), $name);
+        return $this->repository->getLastUpdate($this->doctrine->getManager(), $name, $default);
     }
     
     /**
