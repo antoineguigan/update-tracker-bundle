@@ -91,13 +91,12 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
     public function testGetLastUpdate()
     {
         $repository = new UpdateTrackerRepository(self::ENTITY_NAME);
-        $globalDate = self::$updates['global']->getDate();
         foreach(self::$updates as $namespace=>$update)
         {
-            $this->assertGreaterThanOrEqual($globalDate,$repository->getLastUpdate($this->entityManager, $namespace));
+            $this->assertEquals($update->getDate(),$repository->getLastUpdate($this->entityManager, $namespace));
         }
-        $this->assertGreaterThanOrEqual($globalDate,$repository->getLastUpdate($this->entityManager, 'bogus'));
-        $this->assertNull($repository->getLastUpdate($this->entityManager, 'bogus',false));
+        $this->assertGreaterThanOrEqual(new \DateTime(),$repository->getLastUpdate($this->entityManager, 'bogus'));
+        $this->assertNull($repository->getLastUpdate($this->entityManager, 'bogus',null));
     }
     /**
      * @depends testGetLastUpdate
