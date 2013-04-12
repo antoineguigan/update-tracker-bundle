@@ -24,9 +24,9 @@ class TimestampedPathGenerator implements TimestampedPathGeneratorInterface
      * @param string $name The name of the route
      * @param array $parameters The parameters of the route
      * @param mixed $updateTrackerName The update tracker's name or an array of update trackers
-     * @param type $referenceType The type of reference to be returned
-     * @param type $timestampParameterName The name of the timestamp parameter
-     * @return type
+     * @param int $referenceType The type of reference to be returned
+     * @param string $timestampParameterName The name of the timestamp parameter
+     * @return string
      */
     public function generate($name, array $parameters=array(), $updateTrackerName='global', $referenceType = RouterInterface::ABSOLUTE_PATH, $timestampParameterName=null)
     {

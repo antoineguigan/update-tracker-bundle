@@ -77,6 +77,47 @@ class MyController
 ```
 
 
+Using timestamps in Urls
+------------------------
+
+Timestamped URL are useful for using HTTP cache expire headers with dynamic content.
+This can be useful for :
+
+*  content which can afford to have a changing URL
+*  ESI
+
+To use timestamped URLs in your twig templates, use the `timestamped_path`, 
+`timestamped_url` and `timestamped_controller` functions.
+
+Here is an example of this type of caching strategy with an ESI :
+
+
+```php
+namespace ACME\MyBundle\Controller;
+class MyController
+{
+    /**
+    *   Every variation of the output of this method should update the 
+    *  "my_update_tracker" UpdateTracker.
+    * 
+    *   @Cache(expires="+1year")
+    **/
+    public function esiAction() {
+        ...
+        return $response;
+    }
+}
+```
+
+```twig
+    {# /ACME/MyBundle/Resources/views/layout.html.twig #}
+    ...
+    {% render_esi(timestamped_url("acme_mybundle_mycontroller_esi", {}, "my_update_tracker")) %}
+    ...
+```
+
+
+
 Using server side caching
 -------------------------
 
@@ -117,7 +158,7 @@ You can also render cached fragments directly from yout templates by using the
 render tag with the ``cache`` strategy :
 
 ```twig
-{{ render(controller("MyBundle:MyController:myAction"), { strategy: "cache", "updateTrackerName": "default", ttl: 120 }) }}
+{{ render(controller("MyBundle:MyController:myAction"), { strategy: "cache", "updateTrackerName": "my_update_tracker", ttl: 120 }) }}
 ```
 
 
@@ -126,9 +167,3 @@ Cache entries are automatically deleted when the corresponding update tracker na
 is changed.
 
 
-
-The global namespace
---------------------
-
-When the update time for a given namespace is read, it is always compared to the update time
-of the global namespace, and the latest of the two is returned.
