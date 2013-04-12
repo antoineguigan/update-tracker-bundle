@@ -39,7 +39,7 @@ class Extension extends \Twig_Extension
     }
     public function timestampedController($controller, array $attributes=array(), array $query=array(), $updateTrackerName='global')
     {
-        $query['timestamp'] = $this->updateManager->getLastUpdate($updateTrackerName);
+        $query['timestamp'] = $this->updateManager->getLastUpdate($updateTrackerName)->format('U');
         return new ControllerReference($controller, $attributes, $query);
     }
 }
