@@ -18,7 +18,7 @@ class UpdateManagerTest extends \PHPUnit_Framework_TestCase
                     ->disableOriginalConstructor()
                     ->getMock();
         $doctrine->expects($this->any())
-                ->method('getManager')
+                ->method('getManagerForClass')
                 ->will($this->returnValue($em));
         return $doctrine;
     }

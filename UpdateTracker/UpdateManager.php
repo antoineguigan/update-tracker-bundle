@@ -27,11 +27,11 @@ class UpdateManager implements UpdateManagerInterface
      */
     public function markUpdated($name)
     {
-        $updates = $this->repository->markUpdated($this->doctrine->getManager(), $name);
+        $updates = $this->repository->markUpdated($this->getManager(), $name);
         foreach($updates as $update)
         {
-            $this->doctrine->getManager()->persist($update);
-            $this->doctrine->getManager()->flush();
+            $this->getManager()->persist($update);
+            $this->getManager()->flush();
         }
         return $updates;
     }
@@ -41,7 +41,7 @@ class UpdateManager implements UpdateManagerInterface
      */
     public function getLastUpdate($name='global', $default=true)
     {
-        return $this->repository->getLastUpdate($this->doctrine->getManager(), $name, $default);
+        return $this->repository->getLastUpdate($this->getManager(), $name, $default);
     }
     
     /**
@@ -51,13 +51,17 @@ class UpdateManager implements UpdateManagerInterface
     {
         return $this->repository->getEntityName();
     }
-    
+    protected function getManager()
+    {
+        return $this->doctrine->getManagerForClass($this->getEntityName());
+    }
+
     /**
      * @inheritdoc
      */
     public function getEntityRepository()
     {
-        return $this->repository->getEntityRepository($this->doctrine->getManager());
+        return $this->repository->getEntityRepository($this->getManager());
     }
 }
 
