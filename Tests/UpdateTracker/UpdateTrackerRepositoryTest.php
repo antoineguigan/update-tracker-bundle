@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\Tests\UpdateTracker;
 use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -7,8 +15,8 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
 {
     const CLASS_NAME='Qimnet\UpdateTrackerTestBundle\Entity\UpdateTrackerTest';
     const ENTITY_NAME='QimnetUpdateTrackerTestBundle:UpdateTrackerTest';
-    
-    static $updates=array();
+
+    public static $updates=array();
     protected $entityManager;
 
     protected function setUp()
@@ -43,6 +51,7 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
         $entityRepository = $repository->getEntityRepository($this->entityManager);
         $this->assertInstanceOf('Doctrine\ORM\EntityRepository', $entityRepository);
         $this->assertEquals(self::CLASS_NAME, $entityRepository->getClassName());
+
         return $repository;
     }
     /**
@@ -51,8 +60,7 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
     public function testDefaultValueIsDate(UpdateTrackerRepository $repository)
     {
         $entityRepository = $repository->getEntityRepository($this->entityManager);
-        foreach($entityRepository->findAll() as $entity)
-        {
+        foreach ($entityRepository->findAll() as $entity) {
             $this->entityManager->remove($entity);
         }
         $this->entityManager->flush();
@@ -62,7 +70,7 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
     public function getNamespaces()
     {
         return array(
-            array('namespace1'), 
+            array('namespace1'),
             array('namespace2'),
             array(array('namespace1', 'namespace2', 'namespace3')),
             array(array('test', 'global')),
@@ -77,12 +85,12 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
     {
         $repository = new UpdateTrackerRepository(self::ENTITY_NAME);
         $updates = $repository->markUpdated($this->entityManager, $namespaces);
-        foreach($updates as $update)
-        {
+        foreach ($updates as $update) {
             self::$updates[$update->getName()] = $update;
             $this->entityManager->persist($update);
         }
         $this->entityManager->flush();
+
         return $repository;
     }
     /**
@@ -91,8 +99,7 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
     public function testGetLastUpdate()
     {
         $repository = new UpdateTrackerRepository(self::ENTITY_NAME);
-        foreach(self::$updates as $namespace=>$update)
-        {
+        foreach (self::$updates as $namespace=>$update) {
             $this->assertEquals($update->getDate(),$repository->getLastUpdate($this->entityManager, $namespace));
         }
         $this->assertGreaterThanOrEqual(new \DateTime(),$repository->getLastUpdate($this->entityManager, 'bogus'));
@@ -109,6 +116,7 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
                 ->method('onUpdate');
         $repository->addEventListener($listener);
         $repository->markUpdated($this->entityManager, 'updated');
+
         return $repository;
     }
     /**
@@ -120,5 +128,3 @@ class UpdateTrackerRepositoryTest  extends WebTestCase
         $repository->getEntityRepository($this->entityManager);
     }
 }
-
-?>

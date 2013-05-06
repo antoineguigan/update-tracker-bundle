@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Qimnet\UpdateTrackerBundle\Tests\Routing;
 
@@ -6,7 +14,8 @@ use Qimnet\UpdateTrackerBundle\Routing\TimestampedPathGenerator;
 
 class TimestampedPathGeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    public function getGenerateData() {
+    public function getGenerateData()
+    {
         return array(
             array('parameter'),
             array(false)
@@ -38,7 +47,5 @@ class TimestampedPathGeneratorTest extends \PHPUnit_Framework_TestCase
         $result = $pathGenerator->generate('route', array('key1'=>'value1'), 'update_tracker_name', 'reference_type', $parameterName);
         $this->assertEquals('success', $result);
     }
-    
-}
 
-?>
+}

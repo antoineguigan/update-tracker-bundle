@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Qimnet\UpdateTrackerBundle\DependencyInjection;
 
@@ -25,10 +33,10 @@ class QimnetUpdateTrackerExtension extends Extension
         $container->setParameter('qimnet.update_tracker.response.default_max_age', $config['response']['default_max_age']);
         $container->setParameter('qimnet.update_tracker.response.default_shared_max_age', $config['response']['default_shared_max_age']);
         $container->setParameter('qimnet.update_tracker.path_generator.timestamp_argument_name', $config['routing']['timestamp_argument_name']);
-        
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-        
+
         //Do not load cache manager services if the cache manager is disabled
         if ($config['cache_manager']['enabled']) {
             if (!$config['cache_manager']['prefix']) {

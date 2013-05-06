@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\UpdateTracker;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
@@ -12,8 +20,8 @@ class UpdateManager implements UpdateManagerInterface
 
     /**
      * Constructor
-     * 
-     * @param Registry $doctrine
+     *
+     * @param Registry                         $doctrine
      * @param UpdateTrackerRepositoryInterface $repository
      */
     public function __construct(Registry $doctrine, UpdateTrackerRepositoryInterface $repository)
@@ -21,21 +29,21 @@ class UpdateManager implements UpdateManagerInterface
         $this->doctrine = $doctrine;
         $this->repository = $repository;
     }
-    
+
     /**
      * @inheritdoc
      */
     public function markUpdated($name)
     {
         $updates = $this->repository->markUpdated($this->getManager(), $name);
-        foreach($updates as $update)
-        {
+        foreach ($updates as $update) {
             $this->getManager()->persist($update);
             $this->getManager()->flush();
         }
+
         return $updates;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -43,7 +51,7 @@ class UpdateManager implements UpdateManagerInterface
     {
         return $this->repository->getLastUpdate($this->getManager(), $name, $default);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -64,5 +72,3 @@ class UpdateManager implements UpdateManagerInterface
         return $this->repository->getEntityRepository($this->getManager());
     }
 }
-
-?>

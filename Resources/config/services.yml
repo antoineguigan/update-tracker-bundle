@@ -5,14 +5,14 @@ parameters:
     qimnet.update_tracker.http_cached_response_factory.class: 'Qimnet\UpdateTrackerBundle\Response\HTTPCachedResponseFactory'
     qimnet.update_tracker.path_generator.class: 'Qimnet\UpdateTrackerBundle\Routing\TimestampedPathGenerator'
     qimnet.update_tracker.twig_extension.class: 'Qimnet\UpdateTrackerBundle\Twig\Extension'
-  
+
 services:
     qimnet.update_tracker.repository:
         class: '%qimnet.update_tracker.repository.class%'
         public: false
-        arguments: 
+        arguments:
           - '%qimnet.update_tracker.entity_name%'
-          
+
     qimnet.update_tracker.doctrine_event_subscriber:
         class: '%qimnet.update_tracker.doctrine_event_subscriber.class%'
         public: false
@@ -21,28 +21,28 @@ services:
             - '@qimnet.update_tracker.repository'
         tags:
             - { name: doctrine.event_subscriber }
-            
+
     qimnet.update_tracker.manager:
         class: '%qimnet.update_tracker.manager.class%'
         arguments:
             - '@doctrine'
             - '@qimnet.update_tracker.repository'
-            
+
     qimnet.update_tracker.http_cached_response_factory:
         class: '%qimnet.update_tracker.http_cached_response_factory.class%'
         arguments:
             - '@qimnet.update_tracker.manager'
             - '%qimnet.update_tracker.response.default_max_age%'
             - '%qimnet.update_tracker.response.default_shared_max_age%'
-            
-    
+
+
     qimnet.update_tracker.path_generator:
         class: '%qimnet.update_tracker.path_generator.class%'
         arguments:
             - '@router'
             - '@qimnet.update_tracker.manager'
             - '%qimnet.update_tracker.path_generator.timestamp_argument_name%'
-            
+
     qimnet.update_tracker.twig_extension:
         class: '%qimnet.update_tracker.twig_extension.class%'
         arguments:
@@ -50,5 +50,3 @@ services:
             - '@qimnet.update_tracker.path_generator'
         tags:
             - { name: twig.extension }
-            
-            

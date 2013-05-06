@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -6,9 +14,9 @@ use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerInterface;
 
 /**
  * Base UpdateTracker entity class
- * 
+ *
  * This class should be subclassed as an entity in your project
- * 
+ *
  * @ORM\MappedSuperclass
  */
 abstract class UpdateTracker implements UpdateTrackerInterface
@@ -24,7 +32,6 @@ abstract class UpdateTracker implements UpdateTrackerInterface
      * @ORM\Column(type="datetime")
      */
     protected $date;
-
 
     /**
      * @inheritdoc

@@ -12,13 +12,13 @@ services:
             - '@qimnet.update_tracker.manager'
             - '@qimnet.update_tracker.cache_repositories'
 
-    
+
     qimnet.update_tracker.cache_repositories:
         class: '%qimnet.update_tracker.cache_repositories.class%'
         public: false
         arguments:
             - '%qimnet.update_tracker.cache_manager.default_repository%'
-    
+
     qimnet.update_tracker.cache_repository:
         abstract: true
         public: false
@@ -26,16 +26,16 @@ services:
             - '%qimnet.update_tracker.cache_manager.prefix%'
             - '%qimnet.update_tracker.cache_manager.ttl%'
             - '%qimnet.update_tracker.cache_manager.debug%'
-        
-        
+
+
     qimnet.update_tracker.cache_repository.apc:
         class: '%qimnet.update_tracker.cache_repository.apc.class%'
         parent: qimnet.update_tracker.cache_repository
         public: false
         tags:
             - { name: qimnet.update_tracker.cache_repository, alias: apc }
-            
-    
+
+
     qimnet.cache_manager.cache_manager.listener:
         class: '%qimnet.cache_manager.cache_manager.listener.class%'
         public: false
@@ -43,8 +43,8 @@ services:
             - '@qimnet.update_tracker.cache_repositories'
         tags:
             - { name: qimnet.update_tracker.listener }
-            
-    
+
+
     qimnet.cache_manager.fragment_renderer:
         class: '%qimnet.cache_manager.fragment_renderer.class%'
         arguments:

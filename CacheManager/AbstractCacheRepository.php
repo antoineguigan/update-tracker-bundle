@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\CacheManager;
 
 /**
@@ -9,12 +17,12 @@ abstract class AbstractCacheRepository implements CacheRepositoryInterface
     protected $defaultTTL;
     protected $debug;
     protected $prefix;
-    
+
     /**
-     * 
-     * @param string $prefix The prefix of the objects in the cache
-     * @param type $defaultTTL The default TTL for cache objects
-     * @param type $debug True to deactivate caching
+     *
+     * @param string $prefix     The prefix of the objects in the cache
+     * @param type   $defaultTTL The default TTL for cache objects
+     * @param type   $debug      True to deactivate caching
      */
     public function __construct($prefix, $defaultTTL=90, $debug=false)
     {
@@ -25,32 +33,32 @@ abstract class AbstractCacheRepository implements CacheRepositoryInterface
 
     /**
      * Returns the object as stored in the cache, or null
-     * 
-     * @param string $key The key of the object
+     *
+     * @param  string $key The key of the object
      * @return mixed
      */
     abstract protected function loadObject($key);
-    
+
     /**
      * Saves the object in the cache
-     * 
-     * @param string $key The key of the object
-     * @param mixed $object The object to save
-     * @param int $ttl The TTL of the object in the cache
+     *
+     * @param string $key    The key of the object
+     * @param mixed  $object The object to save
+     * @param int    $ttl    The TTL of the object in the cache
      */
     abstract protected function saveObject($key, $object, $ttl);
-    
+
     /**
      * Removes the cached objects for the given prefix
-     * @param string $prefix 
+     * @param string $prefix
      */
     abstract protected function removeObjectsByPrefix($prefix);
 
     /**
      * Returns the absolute key of an object in the cache
-     * 
-     * @param string $namespace
-     * @param string $key
+     *
+     * @param  string  $namespace
+     * @param  string  $key
      * @return sttring
      */
     protected function getObjectKey($namespace, $key)
@@ -73,7 +81,8 @@ abstract class AbstractCacheRepository implements CacheRepositoryInterface
             if (!$object) {
                 $object = new CacheObject(call_user_func($callback));
                 $this->saveObject($objectKey, $object, $ttl ? $ttl : $this->defaultTTL);
-            } 
+            }
+
             return $object->getObject();
         }
     }
@@ -90,5 +99,3 @@ abstract class AbstractCacheRepository implements CacheRepositoryInterface
         }
     }
 }
-
-?>

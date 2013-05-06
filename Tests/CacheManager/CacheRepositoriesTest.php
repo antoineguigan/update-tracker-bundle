@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\Tests\CacheManager;
 
 use Qimnet\UpdateTrackerBundle\CacheManager\CacheRepositories;
@@ -6,8 +14,8 @@ use Qimnet\UpdateTrackerBundle\CacheManager\CacheRepositories;
 class CacheRepositoriesTest extends \PHPUnit_Framework_TestCase
 {
     const DEFAULT_REPOSITORY_NAME='test';
-    
-    public function testConstruct() 
+
+    public function testConstruct()
     {
         return new CacheRepositories(self::DEFAULT_REPOSITORY_NAME);
     }
@@ -18,6 +26,7 @@ class CacheRepositoriesTest extends \PHPUnit_Framework_TestCase
     {
         $repository = $this->getMock('Qimnet\UpdateTrackerBundle\CacheManager\CacheRepositoryInterface');
         $repositories->addRepository(self::DEFAULT_REPOSITORY_NAME, $repository);
+
         return array('repositories'=>$repositories, 'repository'=>$repository);
     }
     /**
@@ -30,5 +39,3 @@ class CacheRepositoriesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($repository, $repositories->getRepository(self::DEFAULT_REPOSITORY_NAME));
     }
 }
-
-?>

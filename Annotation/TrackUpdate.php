@@ -1,8 +1,16 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\Annotation;
 /**
  * Used to mark entities that should be tracked
- * 
+ *
  * @Annotation
  */
 class TrackUpdate
@@ -12,5 +20,3 @@ class TrackUpdate
      */
     public $name='global';
 }
-
-?>

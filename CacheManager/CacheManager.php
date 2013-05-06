@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\CacheManager;
 
 use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManagerInterface;
@@ -13,7 +21,7 @@ class CacheManager implements CacheManagerInterface
 
     /**
      * Constructor
-     * @param UpdateManagerInterface $updateManager
+     * @param UpdateManagerInterface     $updateManager
      * @param CacheRepositoriesInterface $repositories
      */
     public function __construct(UpdateManagerInterface $updateManager, CacheRepositoriesInterface $repositories)
@@ -28,7 +36,7 @@ class CacheManager implements CacheManagerInterface
     {
         return $this->repositories->getRepository($name);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -36,10 +44,10 @@ class CacheManager implements CacheManagerInterface
     {
         return $this->getRepository($repositoryName)
                 ->getObject(
-                        $updateTrackerName, $key, $callback, $ttl, 
+                        $updateTrackerName, $key, $callback, $ttl,
                         $this->updateManager->getLastUpdate($updateTrackerName)->format("U"));
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -48,5 +56,3 @@ class CacheManager implements CacheManagerInterface
         $this->getRepository($repositoryName)->removeObjects($namespaces);
     }
 }
-
-?>

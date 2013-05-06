@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\CacheManager;
 
 /**
@@ -8,10 +16,10 @@ class CacheObject implements \Serializable
 {
     private $object;
     private $timestamp;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param mixed $object the object that should be cached
      */
     public function __construct($object)
@@ -19,10 +27,10 @@ class CacheObject implements \Serializable
         $this->object = $object;
         $this->timestamp = time();
     }
-    
+
     /**
      * Returns the timestamp at which the object was cached
-     * 
+     *
      * @return int
      */
     public function getTimestamp()
@@ -32,7 +40,7 @@ class CacheObject implements \Serializable
 
     /**
      * Returns the stored object
-     * 
+     *
      * @return mixed
      */
     public function getObject()
@@ -56,5 +64,3 @@ class CacheObject implements \Serializable
         list($this->object, $this->timestamp) = unserialize($serialized);
     }
 }
-
-?>

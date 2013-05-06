@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\UpdateTracker;
 
 use Doctrine\ORM\EntityManager;
@@ -14,14 +22,14 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
 
     /**
      * Constructor
-     * 
+     *
      * @param string $entityName the name of the entity
      */
     public function __construct($entityName)
     {
         $this->entityName = $entityName;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -46,6 +54,7 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
         if (!$this->entityName) {
             throw new \RuntimeException('Could not load Update tracker entity repository');
         }
+
         return $em->getRepository($this->entityName);
     }
 
@@ -62,21 +71,19 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
                 ->getResult();
         $existing = array_map(function($update) { return $update->getName(); }, $updates);
         $remaining = array_diff($name, $existing);
-        foreach($remaining as $name)
-        {
+        foreach ($remaining as $name) {
             $update = new $className;
             $update->setName($name);
             $updates[] = $update;
         }
-        foreach ($updates as $update)
-        {
+        foreach ($updates as $update) {
             $update->setDate(new \DateTime);
             $this->cache[$update->getName()] = $update->getDate();
-            foreach($this->listeners as $listener) {
+            foreach ($this->listeners as $listener) {
                 $listener->onUpdate($update);
             }
         }
-        
+
         return $updates;
     }
     /**
@@ -86,15 +93,13 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
     {
         $name = (array) $name;
         $new = array_diff($name, array_keys($this->cache));
-        if (count($new))
-        {
+        if (count($new)) {
             $items = $em->createQuery(
                     "SELECT u FROM $this->entityName u " .
                     'WHERE u.name IN (:name)')
                     ->setParameter('name', $new)
                     ->getResult();
-            foreach($items as $item)
-            {
+            foreach ($items as $item) {
                 $this->cache[$item->getName()] = $item->getDate();
             }
         }
@@ -105,7 +110,7 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
                     ? $cache[$domain]
                     : max($cache[$domain],$result))
                 : $result;
-                    
+
         },null);
         if (is_null($date) ) {
             if ($default===true) {
@@ -118,5 +123,3 @@ class UpdateTrackerRepository implements UpdateTrackerRepositoryInterface
         }
     }
 }
-
-?>

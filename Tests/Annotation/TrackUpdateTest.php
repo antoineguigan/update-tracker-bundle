@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\Tests\Annotation;
 
 use Qimnet\UpdateTrackerTestBundle\Entity\TrackedEntityTest;
@@ -27,6 +35,7 @@ class TrackUpdateTest extends WebTestCase
         $update = $this->container->get('qimnet.update_tracker.manager')->getLastUpdate('test');
         $this->assertInstanceOf('\DateTime',$update);
         $this->assertTrue($update >= $now);
+
         return $e;
     }
     /**
@@ -37,15 +46,15 @@ class TrackUpdateTest extends WebTestCase
         $this->entityManager->merge($entity);
         $tracker = $this->container->get('qimnet.update_tracker.manager');
         $lastDate = $tracker->getLastUpdate('test');
-        
+
         $entity->setContent('test2');
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
-        
+
         $update = $this->container->get('qimnet.update_tracker.manager')->getLastUpdate('test');
         $this->assertInstanceOf('\DateTime',$update);
         $this->assertTrue($update >= $lastDate);
-        
+
         return $entity;
     }
     /**
@@ -56,16 +65,14 @@ class TrackUpdateTest extends WebTestCase
         $this->entityManager->persist($entity);
         $tracker = $this->container->get('qimnet.update_tracker.manager');
         $lastDate = $tracker->getLastUpdate('test');
-        
+
         $this->entityManager->remove($entity);
         $this->entityManager->flush();
-        
+
         $update = $this->container->get('qimnet.update_tracker.manager')->getLastUpdate('test');
         $this->assertInstanceOf('\DateTime',$update);
         $this->assertTrue($update >= $lastDate);
-        
+
         return $entity;
     }
 }
-
-?>

@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\CacheManager;
 use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateListenerInterface;
 use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerInterface;
@@ -10,17 +18,17 @@ use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateTrackerInterface;
 class UpdateListener implements UpdateListenerInterface
 {
     protected $repositories;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param CacheRepositoriesInterface $repositories
      */
     public function __construct(CacheRepositoriesInterface $repositories)
     {
         $this->repositories = $repositories;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -29,5 +37,3 @@ class UpdateListener implements UpdateListenerInterface
         $this->repositories->getRepository()->removeObjects($update->getName());
     }
 }
-
-?>

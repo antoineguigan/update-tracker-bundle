@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Qimnet update tracker Bundle.
+ *
+ * (c) Antoine Guigan <aguigan@qimnet.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace Qimnet\UpdateTrackerBundle\Twig;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Qimnet\UpdateTrackerBundle\UpdateTracker\UpdateManagerInterface;
@@ -10,7 +18,7 @@ class Extension extends \Twig_Extension
     protected $updateManager;
     protected $pathGenerator;
 
-    public function __construct(UpdateManagerInterface $updateManager, 
+    public function __construct(UpdateManagerInterface $updateManager,
             TimestampedPathGeneratorInterface $pathGenerator)
     {
         $this->updateManager = $updateManager;
@@ -40,8 +48,7 @@ class Extension extends \Twig_Extension
     public function timestampedController($controller, array $attributes=array(), array $query=array(), $updateTrackerName='global')
     {
         $query['timestamp'] = $this->updateManager->getLastUpdate($updateTrackerName)->format('U');
+
         return new ControllerReference($controller, $attributes, $query);
     }
 }
-
-?>
