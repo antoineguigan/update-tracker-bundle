@@ -32,6 +32,6 @@ class CacheFragmentRendererFunctionalTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', "/cache-fragment-test/$value");
-        $this->assertEquals($value, $client->getResponse()->getContent());
+        $this->assertEquals($value, trim($client->getResponse()->getContent()));
     }
 }
