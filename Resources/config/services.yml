@@ -11,7 +11,7 @@ services:
         class: '%qimnet.update_tracker.repository.class%'
         public: false
         arguments:
-          - '%qimnet.update_tracker.entity_name%'
+            - '%qimnet.update_tracker.entity_name%'
 
     qimnet.update_tracker.doctrine_event_subscriber:
         class: '%qimnet.update_tracker.doctrine_event_subscriber.class%'
